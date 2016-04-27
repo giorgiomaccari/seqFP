@@ -1,6 +1,5 @@
-#!/usr/bin/env python
 from setuptools import setup, find_packages, Extension
-from Cython.Distutils import build_ext
+from Cython.Build import cythonize
 from os import path
 from sys import version_info
 
@@ -12,12 +11,20 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+extensions = [
+    Extension(
+        'seqFP/utils',
+        sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
+        extra_compile_args=['-O3', '-mpopcnt'],
+        language='c++'),
+]
+
 setup(
   name='utils',
-  version='0.9.0',
+  version='0.9.0a1',
   description='Fingerprints for sequences',
   long_description=long_description,
-  url="TODO",
+  url="https://github.com/giorgiomaccari/seqFP",
   author="Giorgio Maccari",
   author_email="giorgio.maccari@gmail.com",
   license="GPL3",
@@ -34,12 +41,12 @@ setup(
     'Programming Language :: Python :: 3.5',
     'Programming Language :: C++',
     'Programming Language :: Cython'],
-  keywords='sequence similarity identity',
-  packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+  keywords='sequence similarity identity fingerprints',
+  packages=find_packages(exclude=['contrib', 'docs', 'tests', 'OLD']),
   install_requires=["numpy", "h5py", "biopython"],
-  ext_modules=[Extension('utils',
-               sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
-               extra_compile_args=['-O3', '-mpopcnt'],
-               language='c++')],
-  cmdclass={'build_ext': build_ext}
+  ext_modules=extensions,
+  entry_points={
+        'console_scripts': [
+        'compareFP = seqFP:compareCLI',
+        'bar = other_module:some_func',]},
   )

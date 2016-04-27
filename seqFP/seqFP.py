@@ -1,4 +1,5 @@
-#!/usr/bin/env python2
+from __future__ import division, absolute_import, print_function
+
 import heapq
 from operator import itemgetter
 import sys
@@ -6,7 +7,9 @@ import sys
 import numpy
 import h5py
 from Bio import SeqIO
-import utils
+
+from . import utils
+__all__ = ["compare", "createDB", "compareCLI"]
 
 
 class RankedList(list):
@@ -81,7 +84,7 @@ def createDB(sequences, fp_size=2**12, outfile="fingerprints.hdf5"):
     return
 
 
-def main():
+def compareCLI():
     fastaIn = sys.argv[1]
     database = sys.argv[2]
     with open(fastaIn) as seqFile:
@@ -92,6 +95,3 @@ def main():
         print(i, j)
     return
 
-
-if __name__ == "__main__":
-    sys.exit(main())
