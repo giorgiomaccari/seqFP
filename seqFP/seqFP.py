@@ -1,5 +1,6 @@
 from __future__ import division, absolute_import, print_function
 
+import argparse
 import heapq
 from operator import itemgetter
 import sys
@@ -9,7 +10,7 @@ import h5py
 from Bio import SeqIO
 
 from . import utils
-__all__ = ["compare", "createDB", "compareCLI"]
+__all__ = ["compare", "createDB"]
 
 
 class RankedList(list):
@@ -29,14 +30,14 @@ class RankedList(list):
             self.append(i)
 
 
-def compare(fp, database):
+def compare(seq, database, outlen=20):
     chunk_size = 10000
     f = h5py.File(database, "r")
     fps = f["fingerprints"]
     counts = f["counts"]
     titles = f["titles"]
-    count = utils.cpopcount(fp)
-    rankList = RankedList(maxlen=20)
+    fp, count = utils.makeFP(seq, f.attrs['fpsize'])
+    rankList = RankedList(maxlen=outlen)
     for i in range(0, fps.shape[0], chunk_size):
         tanimotos = utils.tanimoto_multi(fp,
                                          fps[i:i+chunk_size],
@@ -55,6 +56,7 @@ def createDB(sequences, fp_size=2**12, outfile="fingerprints.hdf5"):
     f.attrs['file_name'] = outfile
     f.attrs['HDF5_Version'] = h5py.version.hdf5_version
     f.attrs['h5py_version'] = h5py.version.version
+    f.attrs['fpsize'] = fp_size
     f.attrs['fpInts'] = int(numpy.ceil(fp_size / 32))
     f.attrs['numOfSequences'] = 0
     fps = f.create_dataset("fingerprints",
@@ -84,14 +86,42 @@ def createDB(sequences, fp_size=2**12, outfile="fingerprints.hdf5"):
     return
 
 
-def compareCLI():
-    fastaIn = sys.argv[1]
-    database = sys.argv[2]
+def compareCLI(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
+    parser = argparse.ArgumentParser(
+      prog="compareFP",
+      description="""
+        Compare a protein sequence to a database of
+        precomputed fingerprints""",
+      epilog="Copyright Maccari Giorgio 2016")
+    parser.add_argument('-s', '--sequence', required=True)
+    parser.add_argument('-d', '--database', required=True)
+    parser.add_argument('-l', '--outlen', type=int, default=20)
+    args = parser.parse_args(argv)
+    fastaIn = args.sequence
+    database = args.database
+    outlen = args.outlen
     with open(fastaIn) as seqFile:
         fasta = next(SeqIO.parse(seqFile, "fasta"))
-        fp, count = utils.makeFP(str(fasta.seq), 2**12)
-    rankList = compare(fp, database)
+    rankList = compare(str(fasta.seq), database, outlen)
     for (i, j) in rankList:
         print(i, j)
-    return
+    return 0
 
+def createDBCLI(argv=None):
+    if argv is None:
+        argv = sys.argv[1:]
+    parser = argparse.ArgumentParser(
+      prog="createDB",
+      description="""
+        Create a database of fingerprints from a set of
+        protein sequences.""",
+      epilog="Copyright Maccari Giorgio 2016")
+    parser.add_argument('-s', '--sequences', required=True)
+    parser.add_argument('-d', '--database', required=True)
+    parser.add_argument('-S', '--fpsize',
+                        default = 2**12, type=int)
+    args = parser.parse_args(argv)
+    createDB(args.sequences, args.fpsize, args.database)
+    return 0

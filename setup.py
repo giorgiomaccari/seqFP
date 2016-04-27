@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages, Extension
-from Cython.Build import cythonize
 from os import path
 from sys import version_info
 
@@ -13,14 +12,14 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 extensions = [
     Extension(
-        'seqFP/utils',
+        'seqFP.utils',
         sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
         extra_compile_args=['-O3', '-mpopcnt'],
         language='c++'),
 ]
 
 setup(
-  name='utils',
+  name='seqFP',
   version='0.9.0a1',
   description='Fingerprints for sequences',
   long_description=long_description,
@@ -47,6 +46,6 @@ setup(
   ext_modules=extensions,
   entry_points={
         'console_scripts': [
-        'compareFP = seqFP:compareCLI',
-        'bar = other_module:some_func',]},
+          'compareFP = seqFP.seqFP:compareCLI',
+          'createDB = seqFP.seqFP:createDBCLI']},
   )
