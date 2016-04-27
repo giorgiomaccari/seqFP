@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import heapq
+from operator import itemgetter
 import sys
 
 import numpy
@@ -21,8 +22,8 @@ class RankedList(list):
             heapq.heappush(self, new)
 
     def extend(self, new):
-        for i in new:
-            self.appen(i)
+        for i in heapq.nlargest(self._maxlen, new, itemgetter(0)):
+            self.append(i)
 
 
 def compare(fp, database):
@@ -40,7 +41,7 @@ def compare(fp, database):
                                          counts[i:i+chunk_size])
         rankList.extend(zip(tanimotos, titles[i:i+chunk_size]))
     rankList = sorted(rankList,
-                      key=lambda x: x[0],
+                      key=itemgetter(0),
                       reverse=True)
     f.close()
     return rankList
@@ -87,7 +88,7 @@ def main():
         fasta = next(SeqIO.parse(seqFile, "fasta"))
         fp, count = utils.makeFP(str(fasta.seq), 2**12)
     rankList = compare(fp, database)
-    for (i, j) in rankList[:20]:
+    for (i, j) in rankList:
         print(i, j)
     return
 

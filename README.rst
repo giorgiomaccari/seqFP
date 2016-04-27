@@ -1,5 +1,5 @@
-A fingerprint based sequences aligment tool
-===========================================
+A fingerprint based sequences similarity tool
+=============================================
 
 The program works using an approach similar to that of the daylight fingerprint
 but applied to the subsets of short words that can be recovered from a 
