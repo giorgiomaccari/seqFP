@@ -1,7 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 from setuptools import setup, find_packages, Extension
 from Cython.Distutils import build_ext
 from os import path
+from sys import version_info
+
+if version_info < (3, ):
+    from io import open
 
 here = path.abspath(path.dirname(__file__))
 
@@ -16,12 +20,14 @@ setup(
   url="TODO",
   author="Giorgio Maccari",
   author_email="giorgio.maccari@gmail.com",
-  licence="GPL3",
+  license="GPL3",
   classifiers=[
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Science/Research',
     'Topic :: Scientific/Engineering :: Bio-Informatics',
     'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Programming Language :: Python :: 2',
+    'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',

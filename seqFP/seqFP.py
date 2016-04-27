@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 import heapq
 from operator import itemgetter
 import sys
@@ -10,9 +10,9 @@ import utils
 
 
 class RankedList(list):
-    def __init__(self, *args, maxlen=10):
-        super().__init__(*args)
-        self._maxlen = maxlen
+    def __init__(self, *args, **kwargs):
+        super(list, self).__init__(*args)
+        self._maxlen = kwargs.get("maxlen", 10)
         heapq.heapify(self)
 
     def append(self, new):
