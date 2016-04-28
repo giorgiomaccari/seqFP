@@ -18,6 +18,10 @@ extensions = [
         language='c++'),
 ]
 
+RUN_REQUIRES = ['numpy', 'h5py', 'biopython']
+
+SETUP_REQUIRES = RUN_REQUIRES + ['Cython>=0.19', 'pkgconfig']
+
 setup(
   name='seqFP',
   version='0.9.0a1',
@@ -42,7 +46,8 @@ setup(
     'Programming Language :: Cython'],
   keywords='sequence similarity identity fingerprints',
   packages=find_packages(exclude=['contrib', 'docs', 'tests', 'OLD']),
-  install_requires=["numpy", "h5py", "biopython"],
+  install_requires = RUN_REQUIRES,
+  setup_requires = SETUP_REQUIRES,
   ext_modules=extensions,
   entry_points={
         'console_scripts': [

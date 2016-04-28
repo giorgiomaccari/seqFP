@@ -109,6 +109,7 @@ def compareCLI(argv=None):
         print(i, j)
     return 0
 
+
 def createDBCLI(argv=None):
     if argv is None:
         argv = sys.argv[1:]
