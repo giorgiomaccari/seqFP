@@ -4,7 +4,7 @@ python:
   - "3.5"
 install:
  - pip install -r requirements.txt
- - pip install -e .
+ - python setup.py bdist_wheel --universal
 addons:
   apt:
     packages:
