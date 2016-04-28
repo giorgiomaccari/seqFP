@@ -2,10 +2,15 @@ from setuptools import setup, find_packages, Extension
 from os import path
 from sys import version_info
 
+from Cython.Build import cythonize
+
+
 if version_info < (3, ):
     from io import open
 
 here = path.abspath(path.dirname(__file__))
+
+cythonised_files = cythonize("seqFP/*.pyx")
 
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
@@ -13,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 extensions = [
     Extension(
         'seqFP.utils',
-        sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
+        sources=['seqFP/cutils.cpp', 'seqFP/utils.cpp'],
         extra_compile_args=['-O3', '-mpopcnt'],
         language='c++'),
 ]
