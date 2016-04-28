@@ -1,4 +1,3 @@
-seqFP
 numpy
 h5py
 biopython
