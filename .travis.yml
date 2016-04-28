@@ -9,4 +9,6 @@ addons:
   apt:
     packages:
     - libhdf5-serial-dev
+    - python-cython
+    - python-pyh5
 scripts: nosetests
