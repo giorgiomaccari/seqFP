@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 extensions = [
     Extension(
         'seqFP.utils',
-        sources=['seqFP/cutils.cpp', 'seqFP/utils.cpp'],
+        sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
         extra_compile_args=['-O3', '-mpopcnt'],
         language='c++'),
 ]
