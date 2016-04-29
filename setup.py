@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages, Extension
 from os import path
 from sys import version_info
+import numpy
 
 if version_info < (3, ):
     from io import open
@@ -15,7 +16,8 @@ extensions = [
         'seqFP.utils',
         sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
         extra_compile_args=['-O3', '-mpopcnt'],
-        language='c++'),
+        language='c++',
+        include_dirs=[numpy.get_include()]),
 ]
 
 RUN_REQUIRES = ['numpy', 'h5py', 'biopython']
