@@ -1,18 +1,19 @@
 export BUILD_BRANCH="builder"
-export PUBLISH_BRANCH="wheels"
+export PUBLISH_BRANCH="master"
 export REPO=giorgiomaccari/seqFP
+export PUBLISH_REPO=giorgiomaccari/seqFP-wheels
 export wheeldir=wheelhouse_py${TRAVIS_PYTHON_VERSION}_${TRAVIS_OS_NAME}
 
 
 if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == ${BUILD_BRANCH} ]; then
 
-    echo "Pushing to ${PUBLISH_BRANCH}."
+    echo "Pushing to ${PUBLISH_BRANCH} on ${PUBLISH_REPO}."
 
     git config --global user.email "giorgio.maccari@gmail.com"
     git config --global user.name "giorgiomaccari"
-    git clone --quiet --branch=${PUBLISH_BRANCH}  https://${GH_TOKEN}@github.com/${REPO} seqFP_wheels > /dev/null
+    git clone --quiet --branch=${PUBLISH_BRANCH}  https://${GH_TOKEN}@github.com/${PUBLISH_REPO} seqFP-wheels > /dev/null
 
-    cd seqFP_wheels
+    cd seqFP-wheels
 
     mkdir -p ${wheeldir}
     cp -Rf ${wheelhouse}/*.whl ./${wheeldir}/
