@@ -21,6 +21,7 @@ if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && 
     git add ${wheeldir} ${wheeldir}/*.whl
     git commit -m "Latest wheels build by travis-ci."
     git status
+    git pull --rebase
     git push origin ${PUBLISH_BRANCH} > /dev/null
 else
     echo "Not pushing to ${PUBLISH_BRANCH}. In PR: ${TRAVIS_PULL_REQUEST}; Branch: ${TRAVIS_BRANCH};"
