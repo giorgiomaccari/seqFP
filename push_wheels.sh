@@ -9,7 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && 
 
     git config --global user.email "giorgio.maccari@gmail.com"
     git config --global user.name "giorgiomaccari"
-    git clone --quiet --branch=${PUBLISH_BRANCH}  https://github.com/giorgiomaccari/seqFP.git > /dev/null
+    git clone --quiet --branch=${PUBLISH_BRANCH}  https://${GH_TOKEN}@github.com/${REPO} seqFP > /dev/null
 
     cd seqFP
 

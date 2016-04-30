@@ -1,7 +1,7 @@
 language: python
 
 os:
-- linux
+  - linux
 
 sudo: false
 
@@ -11,10 +11,9 @@ addons:
     - libhdf5-serial-dev
 
 python:
-  - 2.7
+- 2.7
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_ae3c349d9903_key -iv $encrypted_ae3c349d9903_iv -in deploy_key.enc -out deploy_key -d
   - export wheelhouse=${HOME}/wheelhouse
   - pip install --upgrade setuptools
   - pip install --upgrade cython
@@ -28,3 +27,7 @@ script:
 
 after_success:
   - "./push_wheels.sh"
+
+env:
+  global:
+    secure: B0iNs63Nqb8thV6plen4l0TlyFFFqbqgYf61/A8V5WWEuhJMmFlvTeQCnNOaepQwvOsBKm9QXUp52D0Yguo+GbEdwJ0L56H8Phf/Qn1TKPw3EueFy+FhU7VJvf6BOL05zGWWZK5wvgFf2g1tdnbhaEA5QPzeg2UgoeUnKrSotkIXGb8XAOfwfKH84stOMeDooj+Vf93dVuUJ5m8C6fYcOTra7oqlgZnQyIwPOidNzaQYbSvNSOZ0mCxX8qdM8JKXO6I9moFNPejYojwZkIyhrZuG9rZubl5ZNXnXf85NGx2a/jpAHaVSBPT+KTKMHducVLbzQJW8C0g7Lz5J+dVxFmzN/vYzNC+C+oII+mkf09Z8azepKa9mUCnIkfTNYjc1AdTBk7exdwHTAnGN5PNVrXqo2k3gBP5FW4hnC+kg4iSRxsp8KVreR3CyU2WhZVWwjJR2TT/RCaS8ukpB0Yx6OLeH6neSIwAwO21d3K953g9H798aHyeLDWXE2mkkBrg0fbyT0JPz2/+UGzSWx6ANRqrCXLbK+M/zVyoL26Ek+tdLO6ocYMKdagyXKoROOTES5k5+Xgb9FpcufNPtKzKU1KuR9Oh4dBe8K5wY4jMqL5iaAr4NBMc2Thp22kEvx14T4FFa8r++6J1DhV0q6fzVM+RLpIfhOx1DfBcZf4gcito=
