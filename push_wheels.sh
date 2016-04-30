@@ -1,6 +1,6 @@
 export BUILD_BRANCH="builder"
-export PUBLISH_BRANCH="master"
-export REPO=giorgio/seqFP
+export PUBLISH_BRANCH="wheels"
+export REPO=giorgiomaccari/seqFP
 
 
 if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == ${BUILD_BRANCH} ]; then
@@ -13,7 +13,7 @@ if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && 
 
     cd seqFP
 
-    mkdir wheelhouse
+    mkdir -p wheelhouse
     cp -Rf ${wheelhouse}/*.whl ./wheelhouse/
     git status
     git add wheelhouse wheelhouse/*.whl
