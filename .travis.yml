@@ -12,6 +12,7 @@ addons:
 
 python:
 - 2.7
+- 3.5
 
 before_install:
   - export wheelhouse=${HOME}/wheelhouse

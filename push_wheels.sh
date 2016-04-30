@@ -1,6 +1,7 @@
 export BUILD_BRANCH="builder"
 export PUBLISH_BRANCH="wheels"
 export REPO=giorgiomaccari/seqFP
+export wheeldir=wheelhouse_py${TRAVIS_PYTHON_VERSION}
 
 
 if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == ${BUILD_BRANCH} ]; then
@@ -13,10 +14,10 @@ if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && 
 
     cd seqFP_wheels
 
-    mkdir -p wheelhouse
-    cp -Rf ${wheelhouse}/*.whl ./wheelhouse/
+    mkdir -p ${wheeldir}
+    cp -Rf ${wheelhouse}/*.whl ./${wheeldir}/
     git status
-    git add wheelhouse wheelhouse/*.whl
+    git add ${wheeldir} ${wheeldir}/*.whl
     git commit -m "Latest wheels build by travis-ci."
     git status
     git push origin ${PUBLISH_BRANCH} > /dev/null
