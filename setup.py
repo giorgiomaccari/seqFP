@@ -22,7 +22,7 @@ extensions = [
 
 RUN_REQUIRES = ['numpy', 'h5py', 'biopython']
 
-SETUP_REQUIRES = RUN_REQUIRES + ['Cython>=0.19', 'pkgconfig']
+SETUP_REQUIRES = ['numpy', 'Cython>=0.19', 'pkgconfig']
 
 setup(
   name='seqFP',
