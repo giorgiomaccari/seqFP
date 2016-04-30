@@ -1,0 +1,17 @@
+language: python
+os:
+- linux
+python:
+- 2.7
+before_install:
+- openssl aes-256-cbc -K $encrypted_ae3c349d9903_key -iv $encrypted_ae3c349d9903_iv -in deploy_key.enc -out deploy_key -d
+- export wheelhouse=${HOME}/wheelhouse
+- pip install --upgrade setuptools
+- pip install --upgrade cython
+install:
+- pip install wheel
+- git clone https://github.com/giorgiomaccari/seqFP.git
+script:
+- "./build_wheels.sh"
+after_success:
+- "./push_wheels.sh"

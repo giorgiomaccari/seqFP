@@ -1,0 +1,11 @@
+OLD
+tests
+*~
+seqFP/*so
+build
+dist
+*egg-info
+*pyc
+*pyo
+seqFP/utils.cpp
+deb_dist
