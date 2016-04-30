@@ -1,7 +1,7 @@
 export BUILD_BRANCH="builder"
 export PUBLISH_BRANCH="wheels"
 export REPO=giorgiomaccari/seqFP
-export wheeldir=wheelhouse_py${TRAVIS_PYTHON_VERSION}
+export wheeldir=wheelhouse_py${TRAVIS_PYTHON_VERSION}_${TRAVIS_OS_NAME}
 
 
 if [ "$TRAVIS_REPO_SLUG" == $REPO ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == ${BUILD_BRANCH} ]; then
