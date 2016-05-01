@@ -15,7 +15,7 @@ init:
 install:
   - mkdir hdf5lib
   - cd hdf5lib
-  - if "%PYTHON_VERSION%" == "2.7.11" http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
+  - if "%PYTHON_VERSION%" == "2.7.11" curl -O http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
   - if "%PYTHON_VERSION%" == "2.7.11" 7z x -y hdf5-1.8.16-vc9_0.tar.bz2
   - if "%PYTHON_VERSION%" == "2.7.11" 7z x -y hdf5-1.8.16-vc9_0.tar
   - mkdir "C:/HDF_Group/HDF5"
