@@ -2,29 +2,30 @@
 # This file was based on Olivier Grisel's python-appveyor-demo
 
 environment:
-
+  global:
+    HDF_DIR: "C:/HDF_Group/HDF5/lib"
   matrix:
-    - PYTHON: "C:\\Python35-conda64"
-      PYTHON_VERSION: "3.5"
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.11"
       PYTHON_ARCH: "64"
 
+init:
+  - cmd: cmake --version
+
 install:
-  # Install miniconda Python
-  - "powershell ./make/install_python.ps1"
+  - mkdir hdf5lib
+  - cd hdf5lib
+  - if "%PYTHON_VERSION%" == "2.7.11" http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
+  - if "%PYTHON_VERSION%" == "2.7.11" 7z x -y hdf5-1.8.16-vc9_0.tar.bz2
+  - if "%PYTHON_VERSION%" == "2.7.11" 7z x -y hdf5-1.8.16-vc9_0.tar
+  - mkdir "C:/HDF_Group/HDF5"
+  - xcopy Library "C:/HDF_Group/HDF5" /s /e /y
+  - cd ..
+# install stdint
+  - if "%PYTHON_VERSION%" == "2.7.11" curl -O http://ftp.vector.co.jp/43/28/2114/stdint-20070624.zip
+  - if "%PYTHON_VERSION%" == "2.7.11" unzip stdint-20070624.zip
+  - pip install h5py
 
-  # Prepend newly installed Python to the PATH of this build (this cannot be
-  # done from inside the powershell script as it would require to restart
-  # the parent CMD process).
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-
-  # Check that we have the expected version and architecture for Python
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-
-  # Install the dependencies of the project.
-  - "conda install --yes --quiet setuptools numpy h5py biopython cython"
-  - "pip install nose-timer"
-  - "python setup.py develop"
 
 build: false  # Not a C# project, build stuff at the test step instead.
 
