@@ -47,5 +47,5 @@ install:
   - "%CMD_IN_ENV% pip install wheel"
   - "%CMD_IN_ENV% git clone --branch=master https://github.com/giorgiomaccari/seqFP.git"
   - cmd: mkdir C:\wheelhouse
-  - "%CMD_IN_ENV% pip wheel --wheel-dir=C:\wheelhouse ./seqFP"
-  - ls C:\wheelhouse
+  - "%CMD_IN_ENV% pip wheel --wheel-dir=\"C:/wheelhouse\" ./seqFP"
+  - ls \"C:/wheelhouse\"
