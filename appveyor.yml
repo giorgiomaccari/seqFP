@@ -43,8 +43,7 @@ install:
   - "%CMD_IN_ENV% pip install --upgrade setuptools"
   - "%CMD_IN_ENV% pip install --upgrade cython"
   - "%CMD_IN_ENV% pip install --upgrade numpy"
-  - curl -O http://www.lfd.uci.edu/~gohlke/pythonlibs/th4jbnf9/h5py-2.6.0-cp27-cp27m-win_amd64.whl
-  - "%CMD_IN_ENV% pip install h5py-2.6.0-cp27-cp27m-win_amd64.whl"
+  - "%CMD_IN_ENV% pip install h5py/h5py-2.6.0-cp27-cp27m-win_amd64.whl"
 
 build_script:
   # Build the compiled extension
