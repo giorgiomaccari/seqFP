@@ -33,7 +33,6 @@ install:
   # Upgrade to the latest version of pip to avoid it displaying warnings
   # about it being out of date.
   - "pip install --disable-pip-version-check --user --upgrade pip"
-  - "pip install --upgrade numpy"
 
   # Install the build dependencies of the project. If some dependencies contain
   # compiled extensions and are not provided as pre-built wheel packages,
@@ -41,17 +40,18 @@ install:
   # target Python version and architecture
   - "%CMD_IN_ENV% pip install --upgrade setuptools"
   - "%CMD_IN_ENV% pip install --upgrade cython"
+  - "%CMD_IN_ENV% pip install --upgrade numpy"
   - mkdir hdf5lib
   - cd hdf5lib
-  - if "%PYTHON_VERSION%" == "2.7.11" curl -O http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
-  - if "%PYTHON_VERSION%" == "2.7.11" 7z x -y hdf5-1.8.16-vc9_0.tar.bz2
-  - if "%PYTHON_VERSION%" == "2.7.11" 7z x -y hdf5-1.8.16-vc9_0.tar
+  - if "%PYTHON_VERSION%" == "2.7.x" curl -O http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
+  - if "%PYTHON_VERSION%" == "2.7.x" 7z x -y hdf5-1.8.16-vc9_0.tar.bz2
+  - if "%PYTHON_VERSION%" == "2.7.x" 7z x -y hdf5-1.8.16-vc9_0.tar
   - mkdir "C:/HDF_Group/HDF5"
   - xcopy Library "C:/HDF_Group/HDF5" /s /e /y
   - cd ..
 # install stdint
-  - if "%PYTHON_VERSION%" == "2.7.11" curl -O http://ftp.vector.co.jp/43/28/2114/stdint-20070624.zip
-  - if "%PYTHON_VERSION%" == "2.7.11" unzip stdint-20070624.zip
+  - if "%PYTHON_VERSION%" == "2.7.x" curl -O http://ftp.vector.co.jp/43/28/2114/stdint-20070624.zip
+  - if "%PYTHON_VERSION%" == "2.7.x" unzip stdint-20070624.zip
   - "%CMD_IN_ENV% pip install --upgrade h5py"
 
 build_script:
