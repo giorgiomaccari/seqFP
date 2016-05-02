@@ -14,4 +14,4 @@ but can be further extended to read other formats.
 
 ---------------------------
 
-Prebuilt wheels are available at https://github.com/giorgiomaccari/seqFP/tree/wheels
+Prebuilt wheels are available at https://github.com/giorgiomaccari/seqFP-wheels
