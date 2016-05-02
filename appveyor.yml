@@ -9,6 +9,7 @@ environment:
     - PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7.x"
       PYTHON_ARCH: "64"
+      H5PY: "h5py-2.6.0-cp27-cp27m-win_amd64.whl"
 
 install:
   - ECHO "Filesystem root:"
@@ -41,18 +42,8 @@ install:
   - "%CMD_IN_ENV% pip install --upgrade setuptools"
   - "%CMD_IN_ENV% pip install --upgrade cython"
   - "%CMD_IN_ENV% pip install --upgrade numpy"
-  - mkdir hdf5lib
-  - cd hdf5lib
-  - if "%PYTHON_VERSION%" == "2.7.x" curl -O http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
-  - if "%PYTHON_VERSION%" == "2.7.x" 7z x -y hdf5-1.8.16-vc9_0.tar.bz2
-  - if "%PYTHON_VERSION%" == "2.7.x" 7z x -y hdf5-1.8.16-vc9_0.tar
-  - mkdir "C:/HDF_Group/HDF5"
-  - xcopy Library "C:/HDF_Group/HDF5" /s /e /y
-  - cd ..
-# install stdint
-  - if "%PYTHON_VERSION%" == "2.7.x" curl -O http://ftp.vector.co.jp/43/28/2114/stdint-20070624.zip
-  - if "%PYTHON_VERSION%" == "2.7.x" unzip stdint-20070624.zip
-  - "%CMD_IN_ENV% pip install --upgrade h5py"
+  - curl -O http://www.lfd.uci.edu/~gohlke/pythonlibs/th4jbnf9/%H5PY%
+  - "%CMD_IN_ENV% pip install %H5PY%"
 
 build_script:
   # Build the compiled extension
