@@ -3,16 +3,43 @@
 
 environment:
   global:
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     HDF_DIR: "C:/HDF_Group/HDF5/lib"
   matrix:
     - PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.11"
       PYTHON_ARCH: "64"
 
-init:
-  - cmd: cmake --version
-
 install:
+  - ECHO "Filesystem root:"
+  - ps: "ls \"C:/\""
+
+  - ECHO "Installed SDKs:"
+  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+
+  # Install Python (from the official .msi of http://python.org) and pip when
+  # not already installed.
+  - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+
+  # Prepend newly installed Python to the PATH of this build (this cannot be
+  # done from inside the powershell script as it would require to restart
+  # the parent CMD process).
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  # Upgrade to the latest version of pip to avoid it displaying warnings
+  # about it being out of date.
+  - "pip install --disable-pip-version-check --user --upgrade pip"
+
+  # Install the build dependencies of the project. If some dependencies contain
+  # compiled extensions and are not provided as pre-built wheel packages,
+  # pip will build them from source using the MSVC compiler matching the
+  # target Python version and architecture
+  - "%CMD_IN_ENV% pip install --upgrade setuptools"
+  - "%CMD_IN_ENV% pip install --upgrade cython"
   - mkdir hdf5lib
   - cd hdf5lib
   - if "%PYTHON_VERSION%" == "2.7.11" curl -O http://repo.continuum.io/pkgs/free/win-64/hdf5-1.8.16-vc9_0.tar.bz2
@@ -24,11 +51,28 @@ install:
 # install stdint
   - if "%PYTHON_VERSION%" == "2.7.11" curl -O http://ftp.vector.co.jp/43/28/2114/stdint-20070624.zip
   - if "%PYTHON_VERSION%" == "2.7.11" unzip stdint-20070624.zip
-  - pip install h5py
+  - "%CMD_IN_ENV% pip install --upgrade h5py"
 
-
-build: false  # Not a C# project, build stuff at the test step instead.
+build_script:
+  # Build the compiled extension
+  - "%CMD_IN_ENV% python setup.py build"
 
 test_script:
   # Run the project tests
-  - "nosetests --with-timer --timer-top-n=10"
+  - "%CMD_IN_ENV% python setup.py nosetests"
+
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - "%CMD_IN_ENV% python setup.py bdist_wheel"
+  - "%CMD_IN_ENV% python setup.py bdist_wininst"
+  - "%CMD_IN_ENV% python setup.py bdist_msi"
+  - ps: "ls dist"
+
+artifacts:
+  # Archive the generated packages in the ci.appveyor.com build report.
+  - path: dist\*
+
+#on_success:
+#  - TODO: upload the content of dist/*.whl to a public wheelhouse
+#
+
