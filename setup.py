@@ -1,3 +1,4 @@
+import platform
 from setuptools import setup, find_packages, Extension
 from os import path
 from sys import version_info
@@ -20,7 +21,10 @@ extensions = [
         include_dirs=[numpy.get_include()]),
 ]
 
-RUN_REQUIRES = ['numpy', 'h5py', 'biopython']
+if platform.system() == "Windows":
+    RUN_REQUIRES = ['numpy', 'biopython']
+else:
+    RUN_REQUIRES = ['numpy', 'h5py', 'biopython']
 
 SETUP_REQUIRES = ['numpy', 'Cython>=0.19', 'pkgconfig']
 
