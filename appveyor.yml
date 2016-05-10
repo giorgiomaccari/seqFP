@@ -6,8 +6,8 @@ environment:
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     HDF5_DIR: "C:\\HDF_Group\\HDF5"
   matrix:
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.x"
+    - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5.x"
       PYTHON_ARCH: "64"
       H5PY: "h5py-2.6.0-cp27-cp27m-win_amd64.whl"
 
