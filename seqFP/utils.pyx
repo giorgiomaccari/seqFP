@@ -1,15 +1,17 @@
 """
 Compile with gcc flag -mpopcnt
 """
+import platform
 import numpy as np
 cimport numpy as np
 from cutils cimport FP
+from cutils cimport mypopcnt
+#from cutils cimport mypopcnt
 cimport cython
 from libc.stdint cimport uint32_t
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 
-cdef extern int __builtin_popcount(unsigned int) nogil
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
@@ -25,7 +27,7 @@ cdef int _c_popcount_32(uint32_t[:] arr) nogil:
     cdef int j
     j = 0
     for i in xrange(arr.shape[0]):
-        j += __builtin_popcount(arr[i])
+        j += mypopcnt(arr[i])
     return j
 
 
@@ -51,9 +53,9 @@ cdef float _c_tanimoto(uint32_t[:] fp1, uint32_t[:] fp2) nogil:
     fp1count = 0
     fp2count = 0
     for i in xrange(fp1.shape[0]):
-        intersection += __builtin_popcount(fp1[i] & fp2[i])
-        fp1count += __builtin_popcount(fp1[i])
-        fp2count += __builtin_popcount(fp2[i])
+        intersection += mypopcnt(fp1[i] & fp2[i])
+        fp1count += mypopcnt(fp1[i])
+        fp2count += mypopcnt(fp2[i])
     tanimoto = float(intersection) / float(fp1count + fp2count - intersection)
     return tanimoto
 
@@ -74,7 +76,7 @@ cdef float _c_tanimoto2(uint32_t[:] fp1, uint32_t[:] fp2, int count1, int count2
     cdef float tanimoto
     intersection = 0
     for i in xrange(fp1.shape[0]):
-        intersection += __builtin_popcount(fp1[i] & fp2[i])
+        intersection += mypopcnt(fp1[i] & fp2[i])
     tanimoto = float(intersection) / float(count1 + count2 - intersection)
     return tanimoto
 
@@ -98,7 +100,7 @@ cdef void _c_tanimoto_multi(uint32_t[:] fp1, uint32_t[:, :] fps, int count1, uin
     for j in xrange(fps.shape[0]):
         intersection = 0
         for i in xrange(fps.shape[1]):
-            intersection += __builtin_popcount(fp1[i] & fps[j, i])
+            intersection += mypopcnt(fp1[i] & fps[j, i])
         tanimoto = float(intersection) / float(count1 + counts[j] - intersection)
         tanimotos[j] = tanimoto
     return

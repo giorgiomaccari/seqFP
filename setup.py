@@ -12,14 +12,23 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-extensions = [
-    Extension(
-        'seqFP.utils',
-        sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
-        extra_compile_args=['-O3', '-mpopcnt'],
-        language='c++',
-        include_dirs=[numpy.get_include()]),
-]
+if platform.system() == "Windows":
+    extensions = [
+        Extension(
+            'seqFP.utils',
+            sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
+            language='c++',
+            include_dirs=[numpy.get_include()]),
+    ]
+else:
+    extensions = [
+        Extension(
+            'seqFP.utils',
+            sources=['seqFP/cutils.cpp', 'seqFP/utils.pyx'],
+            extra_compile_args=['-O3', '-mpopcnt'],
+            language='c++',
+            include_dirs=[numpy.get_include()]),
+    ]
 
 if platform.system() == "Windows":
     RUN_REQUIRES = ['numpy', 'biopython']

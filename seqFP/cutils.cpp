@@ -2,6 +2,18 @@
 #include <iostream>
 #include "cutils.h"
 
+#if defined(__GCC__)
+uint32_t mypopcnt(uint32_t i) {
+    return __builtin_popcount(i);
+}
+#elif defined(_MSC_VER)
+uint32_t mypopcnt(uint32_t i) {
+    return __popcnt(i);
+}
+#endif
+
+
+
 //////////////////////////////
 // MD5 class implementation //
 //////////////////////////////
@@ -440,8 +452,8 @@ void FP::init(const uint32_t fpsize)
 
 void FP::digest(const std::string &sequence)
 {
-    int i;
-    int j;
+    uint32_t i;
+    uint32_t j;
     bool found;
     uint32_t numAA;
     uint32_t count;
@@ -499,9 +511,9 @@ void FP::update(const std::string &substring, uint32_t count)
 
 void FP::to_int()
 {
-    int i;
-    int j;
-    int pos;
+    uint32_t i;
+    uint32_t j;
+    uint32_t pos;
     for (i = 0; i < int_size; i++) {
         for (j = 0; j < 32; j++) {
             pos = i * 32 + j;

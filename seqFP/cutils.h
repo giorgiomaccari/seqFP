@@ -4,6 +4,9 @@
 #include <vector>
 #include <bitset>
 
+uint32_t mypopcnt(uint32_t i);
+
+
 // a small class for calculating MD5 hashes of strings or byte arrays
 // it is not meant to be fast or secure
 //
